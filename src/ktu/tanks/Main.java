@@ -22,9 +22,9 @@ public class Main implements MainCommands {
         System.out.println("Parejo username: " + username);
         loginDialog.dispose();
 
-        Player player = HttpRequestSender.login(username).orElseThrow(() -> new RuntimeException("Could not login"));
+        //Player player = HttpRequestSender.login(username).orElseThrow(() -> new RuntimeException("Could not login"));
 
-        System.out.println(player.getPosX());
+        //System.out.println(player.getPosX());
 
         new MainWindow();
     }
