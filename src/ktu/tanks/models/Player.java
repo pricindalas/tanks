@@ -1,35 +1,60 @@
 package ktu.tanks.models;
 
 public class Player {
-    private String username;
-    private int posX;
-    private int posY;
+    private int id;
+    private String name;
 
-    public Player(String username) {
-        this.username = username;
+    private int health;
+    private float posX;
+    private float posY;
+
+    public Player() { }
+
+    public Player(int id, String name, int health, float posX, float posY) {
+        this.id = id;
+        this.name = name;
+        this.health = health;
+        this.posX = posX;
+        this.posY = posY;
     }
 
-    public String getUsername() {
-        return username;
+    public int getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getPosX() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public float getPosX() {
         return posX;
     }
 
-    public void setPosX(int posX) {
+    public void setPosX(float posX) {
         this.posX = posX;
     }
 
-    public int getPosY() {
+    public float getPosY() {
         return posY;
     }
 
-    public void setPosY(int posY) {
+    public void setPosY(float posY) {
         this.posY = posY;
     }
 }
