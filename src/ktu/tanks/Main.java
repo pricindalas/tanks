@@ -1,7 +1,6 @@
 package ktu.tanks;
 
 import ktu.tanks.models.Player;
-import ktu.tanks.net.HttpRequestSender;
 import ktu.tanks.ui.MainWindow;
 import ktu.tanks.ui.components.UserLoginDialog;
 

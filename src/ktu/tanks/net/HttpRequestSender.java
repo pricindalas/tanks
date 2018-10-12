@@ -16,48 +16,54 @@ public class HttpRequestSender {
         HttpURLConnection connection = null;
         Player resultPlayer = null;
 
-        try {
-
-            URL url = new URL(host + "/login");
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("Content-Length", String.valueOf(username.getBytes().length));
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-
-            connection.getOutputStream().write(username.getBytes());
-            connection.getOutputStream().close();
-
-            if (connection.getResponseCode() == 200) {
-                int length = Integer.parseInt(connection.getHeaderField("Content-Length"));
-                byte[] response = new byte[length];
-
-                int size = connection.getInputStream().read(response);
-                connection.getInputStream().close();
-
-                String data = new String(response, 0, size);
-                resultPlayer = new ObjectMapper().readValue(data, Player.class);
-            }
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
-        }
+        resultPlayer = postJson(Player.class, username, "login");
 
         return Optional.ofNullable(resultPlayer);
     }
 
-    public static <T> T post(Class<T> returnType, String body, String action) {
+//    public static Optional<Player> login(String username) {
+//        HttpURLConnection connection = null;
+//        Player resultPlayer = null;
+//
+//        try {
+//
+//            URL url = new URL(host + "/login");
+//            connection = (HttpURLConnection) url.openConnection();
+//            connection.setRequestMethod("POST");
+//            connection.setRequestProperty("Content-Type", "application/json");
+//            connection.setRequestProperty("Content-Length", String.valueOf(username.getBytes().length));
+//            connection.setDoInput(true);
+//            connection.setDoOutput(true);
+//
+//            connection.getOutputStream().write(username.getBytes());
+//            connection.getOutputStream().close();
+//
+//            if (connection.getResponseCode() == 200) {
+//                int length = Integer.parseInt(connection.getHeaderField("Content-Length"));
+//                byte[] response = new byte[length];
+//
+//                int size = connection.getInputStream().read(response);
+//                connection.getInputStream().close();
+//
+//                String data = new String(response, 0, size);
+//                resultPlayer = new ObjectMapper().readValue(data, Player.class);
+//            }
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (connection != null) {
+//                connection.disconnect();
+//            }
+//        }
+//
+//        return Optional.ofNullable(resultPlayer);
+//    }
 
-        ObjectMapper mapper = new ObjectMapper();
 
+    public static String post(String body, String action) {
         HttpURLConnection connection = null;
-        T response = null;
+        String response = null;
 
         try {
             byte[] requestBody = body.getBytes();
@@ -77,15 +83,37 @@ public class HttpRequestSender {
                 byte[] responseBody = new byte[size];
                 int bytesRead = connection.getInputStream().read(responseBody);
                 connection.getInputStream().close();
-                response = mapper.readValue(responseBody, returnType);
+                response = new String(responseBody, 0, bytesRead);
             } else {
-                throw new RuntimeException(connection.getResponseCode() + " " + connection.getResponseMessage());
+                System.err.println(connection.getResponseCode() + " " + connection.getResponseMessage());
             }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             if (connection != null)
                 connection.disconnect();
+        }
+
+        return response;
+    }
+
+    public static <T> T postJson(Class<T> respsonseType, Object data, String action) {
+        ObjectMapper mapper = new ObjectMapper();
+        T response = null;
+
+        try {
+            String result;
+
+            if (data instanceof String) {
+                result = post((String) data, action);
+            } else {
+                String body = mapper.writeValueAsString(data);
+                result = post(body, action);
+            }
+
+            response = mapper.readValue(result, respsonseType);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         return response;

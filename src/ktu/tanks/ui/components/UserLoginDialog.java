@@ -11,6 +11,7 @@ public class UserLoginDialog extends JDialog {
     private JButton buttonCancel;
     private JTextField usernameTextField;
     private JLabel usernameLabel;
+    private JLabel errorLabel;
 
     private final MainCommands mainActivity;
 
@@ -24,6 +25,7 @@ public class UserLoginDialog extends JDialog {
         buttonOK.addActionListener(e -> {
             String username = usernameTextField.getText();
             if (username.length() > 1) {
+
                 mainAcitivty.usernameEntered(usernameTextField.getText());
             }
         });
