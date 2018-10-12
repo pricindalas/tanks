@@ -4,6 +4,8 @@ import ktu.tanks.Direction;
 import ktu.tanks.GameTicker;
 import ktu.tanks.PlayerControlManager;
 import ktu.tanks.Tickable;
+import ktu.tanks.models.Player;
+import ktu.tanks.net.HttpRequestSender;
 import ktu.tanks.ui.components.GameViewPanel;
 
 import javax.swing.*;
@@ -14,20 +16,22 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
     private GameViewPanel gameView;
     private GameTicker gameTicker;
-    private Tank player;
+    private Tank playerTank;
+    private Player player;
 
     private final Toolkit toolkit;
 
-    public MainWindow() {
+    public MainWindow(Player player) {
+        this.player = player;
         this.toolkit = Toolkit.getDefaultToolkit();
 
         this.getContentPane().add(new JPanel());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("Tankeliai");
 
-        player = new Tank(0, 0, Direction.Down, 4);
+        playerTank = new Tank(0, 0, Direction.Down, 4);
 
-        gameView = new GameViewPanel(player);
+        gameView = new GameViewPanel(playerTank);
 
         this.add(gameView);
 
@@ -45,7 +49,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
     @Override
     public void tick() {
-        player.tick();
+        playerTank.tick();
 
         SwingUtilities.invokeLater(() -> gameView.repaint());
 
@@ -60,6 +64,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
     @Override
     public void windowClosing(WindowEvent windowEvent) {
         gameTicker.stop();
+        //String response = HttpRequestSender.post(String.class, player.getName(), "logout");
     }
 
     @Override
@@ -89,12 +94,12 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
     @Override
     public void startMoving(Direction direction) {
-        player.setDirection(direction);
-        player.setMoving(true);
+        playerTank.setDirection(direction);
+        playerTank.setMoving(true);
     }
 
     @Override
     public void stopMoving() {
-        player.setMoving(false);
+        playerTank.setMoving(false);
     }
 }

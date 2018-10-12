@@ -52,7 +52,7 @@ public class HttpRequestSender {
         return Optional.ofNullable(resultPlayer);
     }
 
-    public static <T> T postJson(Class<T> returnType, Object body, String action) {
+    public static <T> T post(Class<T> returnType, String body, String action) {
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -60,7 +60,7 @@ public class HttpRequestSender {
         T response = null;
 
         try {
-            byte[] requestBody = mapper.writeValueAsBytes(body);
+            byte[] requestBody = body.getBytes();
             URL url = new URL(host + "/" + action);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
