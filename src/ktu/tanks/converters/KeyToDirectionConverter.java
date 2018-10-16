@@ -1,8 +1,8 @@
-package ktu.tanks.util;
+package ktu.tanks.converters;
 
 import ktu.tanks.Direction;
 
-public class KeyToDirection {
+public class KeyToDirectionConverter {
     public static Direction getDirection(int code) {
         switch (code) {
             case 87:

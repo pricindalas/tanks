@@ -1,6 +1,6 @@
 package ktu.tanks;
 
-import ktu.tanks.util.KeyToDirection;
+import ktu.tanks.converters.KeyToDirectionConverter;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -22,7 +22,7 @@ public class PlayerControlManager implements KeyEventDispatcher {
                     break;
 
                 isKeyDown = true;
-                playerControlActionListener.startMoving(KeyToDirection.getDirection(e.getKeyCode()));
+                playerControlActionListener.startMoving(KeyToDirectionConverter.getDirection(e.getKeyCode()));
                 break;
             case KeyEvent.KEY_RELEASED:
                 isKeyDown = false;
