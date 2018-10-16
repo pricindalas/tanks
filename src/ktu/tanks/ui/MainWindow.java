@@ -11,11 +11,14 @@ import ktu.tanks.ui.components.GameViewPanel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainWindow extends JFrame implements Tickable, WindowListener, PlayerControlManager.PlayerControlActionListener {
 
     private GameViewPanel gameView;
     private GameTicker gameTicker;
+    private GameTicker networkTicker;
     private Tank playerTank;
     private Player player;
 
@@ -29,12 +32,12 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("Tankeliai");
 
-        playerTank = new Tank(0, 0, Direction.Down, 4);
+        playerTank = new Tank(player.getPosX(), player.getPosY(), Direction.Down, 4, player.getName(), player.getHealth());
+        gameView = new GameViewPanel(new ArrayList<>());
 
-        gameView = new GameViewPanel(playerTank);
+        gameView.getTanks().add(playerTank);
 
         this.add(gameView);
-
         this.addWindowListener(this);
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(true);
@@ -42,6 +45,51 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
         this.setVisible(true);
 
         gameTicker = new GameTicker(this, 20);
+        networkTicker = new GameTicker(() -> {
+            Player[] players  = HttpRequestSender.postJson(Player[].class, player, "update");
+
+            List<Tank> gameTanks = gameView.getTanks();
+
+            for (Player pl : players) {
+                boolean exists = false;
+                for (Tank tank : gameTanks) {
+                    if (tank.getPlayerName().equals(pl.getName())) {
+                        exists = true;
+                        tank.setX(pl.getPosX());
+                        tank.setY(pl.getPosY());
+                    }
+                }
+
+                if (!exists) {
+                    gameTanks.add(new Tank(pl.getPosX(), pl.getPosY(), Direction.Up, 10, pl.getName(), pl.getHealth()));
+                }
+            }
+
+
+            if (players.length < gameTanks.size()) {
+
+                List<Tank> tanksToRemove = new ArrayList<>();
+
+                for (Tank tank: gameTanks) {
+                    boolean exists = false;
+                    for (Player pl : players) {
+                        if (pl.getName().equals(tank.getPlayerName())) {
+                            exists = true;
+                        }
+                    }
+
+                    if (!exists) {
+                        tanksToRemove.add(tank);
+                    }
+                }
+
+                for (Tank tank : tanksToRemove) {
+                    gameTanks.remove(tank);
+                }
+
+            }
+
+        }, 1000);
 
         PlayerControlManager playerControlManager = new PlayerControlManager(this);
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(playerControlManager);
@@ -50,6 +98,8 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
     @Override
     public void tick() {
         playerTank.tick();
+        player.setPosX(playerTank.getX());
+        player.setPosY(playerTank.getY());
 
         SwingUtilities.invokeLater(() -> gameView.repaint());
 
@@ -59,12 +109,14 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
     @Override
     public void windowOpened(WindowEvent windowEvent) {
         gameTicker.start();
+        networkTicker.start();
     }
 
     @Override
     public void windowClosing(WindowEvent windowEvent) {
         gameTicker.stop();
-        //String response = HttpRequestSender.post(String.class, player.getName(), "logout");
+        networkTicker.stop();
+        String response = HttpRequestSender.post(player.getName(), "logout");
     }
 
     @Override

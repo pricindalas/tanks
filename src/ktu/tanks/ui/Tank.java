@@ -1,6 +1,7 @@
 package ktu.tanks.ui;
 
 import ktu.tanks.Direction;
+import ktu.tanks.models.Player;
 import ktu.tanks.util.ImageLoader;
 
 import java.awt.*;
@@ -18,9 +19,12 @@ public class Tank {
     private Direction direction;
     private boolean isMoving;
 
+    private String playerName;
+    private int health;
+
     private int x, y, movementSpeed;
 
-    public Tank(int x, int y, Direction direction, int movementSpeed) {
+    public Tank(int x, int y, Direction direction, int movementSpeed, String playerName, int health) {
         this.imgUp = ImageLoader.loadImage("tank/t1n.png");
         this.imgDown = ImageLoader.loadImage("tank/t1s.png");
         this.imgLeft = ImageLoader.loadImage("tank/t1w.png");
@@ -30,6 +34,9 @@ public class Tank {
         this.y = y;
         this.direction = direction;
         this.movementSpeed = movementSpeed;
+
+        this.playerName = playerName;
+        this.health = health;
     }
 
     public void setMoving(boolean isMoving) {
@@ -116,5 +123,37 @@ public class Tank {
 
     public int getY() {
         return y;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getMovementSpeed() {
+        return movementSpeed;
+    }
+
+    public void setMovementSpeed(int movementSpeed) {
+        this.movementSpeed = movementSpeed;
     }
 }

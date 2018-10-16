@@ -1,6 +1,7 @@
 package ktu.tanks;
 
 import ktu.tanks.models.Player;
+import ktu.tanks.net.HttpRequestSender;
 import ktu.tanks.ui.MainWindow;
 import ktu.tanks.ui.components.UserLoginDialog;
 
@@ -21,11 +22,9 @@ public class Main implements MainCommands {
         System.out.println("Parejo username: " + username);
         loginDialog.dispose();
 
-//        Player player = HttpRequestSender.login(username).orElseThrow(() -> new RuntimeException("Could not login"));
+        Player player = HttpRequestSender.login(username).orElseThrow(() -> new RuntimeException("Could not login"));
 
-//        System.out.println(player.getPosX());
-
-        Player player = new Player(1, "generic", 100, 0, 0);
+//        Player player = new Player(1, "generic", 100, 0, 0);
 
         new MainWindow(player);
     }
