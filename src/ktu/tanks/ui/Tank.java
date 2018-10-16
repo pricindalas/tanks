@@ -93,6 +93,7 @@ public class Tank {
     }
 
     public void render(Graphics g) {
+        System.out.println("Rendering " + playerName);
         g.drawImage(getImage(), x, y, null);
     }
 

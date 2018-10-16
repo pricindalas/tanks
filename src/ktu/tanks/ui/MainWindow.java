@@ -32,7 +32,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("Tankeliai");
 
-        playerTank = new Tank(player.getPosX(), player.getPosY(), Direction.Down, 4, player.getName(), player.getHealth());
+        playerTank = new Tank(player.getPosX(), player.getPosY(), player.getDirection(), 4, player.getName(), player.getHealth());
         gameView = new GameViewPanel(new ArrayList<>());
 
         gameView.getTanks().add(playerTank);
@@ -57,16 +57,17 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
                         exists = true;
                         tank.setX(pl.getPosX());
                         tank.setY(pl.getPosY());
+                        tank.setDirection(pl.getDirection());
                     }
                 }
 
                 if (!exists) {
-                    gameTanks.add(new Tank(pl.getPosX(), pl.getPosY(), Direction.Up, 10, pl.getName(), pl.getHealth()));
+                    gameTanks.add(new Tank(pl.getPosX(), pl.getPosY(), pl.getDirection(), 10, pl.getName(), pl.getHealth()));
                 }
             }
 
 
-            if (players.length < gameTanks.size()) {
+            if (players.length + 1 < gameTanks.size()) {
 
                 List<Tank> tanksToRemove = new ArrayList<>();
 
@@ -78,8 +79,9 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
                         }
                     }
 
-                    if (!exists) {
+                    if (!exists && !player.getName().equals(tank.getPlayerName())) {
                         tanksToRemove.add(tank);
+                        System.out.printf("Player added %s", tank.getPlayerName());
                     }
                 }
 
@@ -89,7 +91,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
             }
 
-        }, 1000);
+        }, 50);
 
         PlayerControlManager playerControlManager = new PlayerControlManager(this);
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(playerControlManager);
@@ -100,6 +102,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
         playerTank.tick();
         player.setPosX(playerTank.getX());
         player.setPosY(playerTank.getY());
+        player.setDirection(playerTank.getDirection());
 
         SwingUtilities.invokeLater(() -> gameView.repaint());
 

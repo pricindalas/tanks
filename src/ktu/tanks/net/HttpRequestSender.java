@@ -13,53 +13,9 @@ public class HttpRequestSender {
     private static final String host = "http://localhost:8000";
 
     public static Optional<Player> login(String username) {
-        HttpURLConnection connection = null;
-        Player resultPlayer = null;
-
-        resultPlayer = postJson(Player.class, username, "login");
-
+        Player resultPlayer = postJson(Player.class, username, "login");
         return Optional.ofNullable(resultPlayer);
     }
-
-//    public static Optional<Player> login(String username) {
-//        HttpURLConnection connection = null;
-//        Player resultPlayer = null;
-//
-//        try {
-//
-//            URL url = new URL(host + "/login");
-//            connection = (HttpURLConnection) url.openConnection();
-//            connection.setRequestMethod("POST");
-//            connection.setRequestProperty("Content-Type", "application/json");
-//            connection.setRequestProperty("Content-Length", String.valueOf(username.getBytes().length));
-//            connection.setDoInput(true);
-//            connection.setDoOutput(true);
-//
-//            connection.getOutputStream().write(username.getBytes());
-//            connection.getOutputStream().close();
-//
-//            if (connection.getResponseCode() == 200) {
-//                int length = Integer.parseInt(connection.getHeaderField("Content-Length"));
-//                byte[] response = new byte[length];
-//
-//                int size = connection.getInputStream().read(response);
-//                connection.getInputStream().close();
-//
-//                String data = new String(response, 0, size);
-//                resultPlayer = new ObjectMapper().readValue(data, Player.class);
-//            }
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (connection != null) {
-//                connection.disconnect();
-//            }
-//        }
-//
-//        return Optional.ofNullable(resultPlayer);
-//    }
-
 
     public static String post(String body, String action) {
         HttpURLConnection connection = null;
