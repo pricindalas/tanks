@@ -22,7 +22,12 @@ public class PlayerControlManager implements KeyEventDispatcher {
                     break;
 
                 isKeyDown = true;
-                playerControlActionListener.startMoving(KeyToDirectionConverter.getDirection(e.getKeyCode()));
+                Direction direction = KeyToDirectionConverter.getDirection(e.getKeyCode());
+
+                if (direction != null) {
+                    playerControlActionListener.startMoving(KeyToDirectionConverter.getDirection(e.getKeyCode()));
+                }
+
                 break;
             case KeyEvent.KEY_RELEASED:
                 isKeyDown = false;
