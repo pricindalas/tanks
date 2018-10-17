@@ -5,7 +5,7 @@ import ktu.tanks.net.HttpRequestSender;
 import ktu.tanks.ui.MainWindow;
 import ktu.tanks.ui.components.UserLoginDialog;
 
-public class Main implements MainCommands {
+public class Main implements DialogCallback {
 
     private static UserLoginDialog loginDialog;
 
@@ -18,10 +18,10 @@ public class Main implements MainCommands {
     }
 
     @Override
-    public void usernameEntered(String username) {
+    public void dialogConfirmed(String username, String address) {
         System.out.println("Parejo username: " + username);
         loginDialog.dispose();
-
+        HttpRequestSender.host = String.format("http://%s", address);
         Player player = HttpRequestSender.login(username).orElseThrow(() -> new RuntimeException("Could not login"));
 
 //        Player player = new Player(1, "generic", 100, 0, 0);
@@ -32,6 +32,7 @@ public class Main implements MainCommands {
     @Override
     public void usernameCanceled() {
         System.out.println("Nepavyko suvesti");
+        loginDialog.dispose();
     }
 
 }

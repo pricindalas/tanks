@@ -1,6 +1,6 @@
 package ktu.tanks.ui.components;
 
-import ktu.tanks.MainCommands;
+import ktu.tanks.DialogCallback;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -11,11 +11,12 @@ public class UserLoginDialog extends JDialog {
     private JButton buttonCancel;
     private JTextField usernameTextField;
     private JLabel usernameLabel;
-    private JLabel errorLabel;
+    private JLabel addressLabel;
+    private JTextField addressTextField;
 
-    private final MainCommands mainActivity;
+    private final DialogCallback mainActivity;
 
-    public UserLoginDialog(MainCommands mainAcitivty) {
+    public UserLoginDialog(DialogCallback mainAcitivty) {
         this.mainActivity = mainAcitivty;
 
         setContentPane(contentPane);
@@ -26,7 +27,7 @@ public class UserLoginDialog extends JDialog {
             String username = usernameTextField.getText();
             if (username.length() > 1) {
 
-                mainAcitivty.usernameEntered(usernameTextField.getText());
+                mainAcitivty.dialogConfirmed(usernameTextField.getText(), addressTextField.getText());
             }
         });
 

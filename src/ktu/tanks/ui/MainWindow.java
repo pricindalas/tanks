@@ -4,6 +4,8 @@ import ktu.tanks.Direction;
 import ktu.tanks.GameTicker;
 import ktu.tanks.PlayerControlManager;
 import ktu.tanks.Tickable;
+import ktu.tanks.entities.Tank;
+import ktu.tanks.entities.base.PlayerEntity;
 import ktu.tanks.models.Player;
 import ktu.tanks.net.HttpRequestSender;
 import ktu.tanks.ui.components.GameViewPanel;
@@ -48,11 +50,11 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
         networkTicker = new GameTicker(() -> {
             Player[] players  = HttpRequestSender.postJson(Player[].class, player, "update");
 
-            List<Tank> gameTanks = gameView.getTanks();
+            List<PlayerEntity> gameTanks = gameView.getTanks();
 
             for (Player pl : players) {
                 boolean exists = false;
-                for (Tank tank : gameTanks) {
+                for (PlayerEntity tank : gameTanks) {
                     if (tank.getPlayerName().equals(pl.getName())) {
                         exists = true;
                         tank.setX(pl.getPosX());
@@ -69,9 +71,9 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
             if (players.length + 1 < gameTanks.size()) {
 
-                List<Tank> tanksToRemove = new ArrayList<>();
+                List<PlayerEntity> tanksToRemove = new ArrayList<>();
 
-                for (Tank tank: gameTanks) {
+                for (PlayerEntity tank: gameTanks) {
                     boolean exists = false;
                     for (Player pl : players) {
                         if (pl.getName().equals(tank.getPlayerName())) {
@@ -85,7 +87,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
                     }
                 }
 
-                for (Tank tank : tanksToRemove) {
+                for (PlayerEntity tank : tanksToRemove) {
                     gameTanks.remove(tank);
                 }
 

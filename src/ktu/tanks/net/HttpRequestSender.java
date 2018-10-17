@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class HttpRequestSender {
 
-    private static final String host = "http://localhost:8000";
+    public static String host = "http://localhost:8000";
 
     public static Optional<Player> login(String username) {
         Player resultPlayer = postJson(Player.class, username, "login");
