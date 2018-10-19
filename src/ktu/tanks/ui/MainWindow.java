@@ -93,7 +93,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
             }
 
-        }, 50);
+        }, 20);
 
         PlayerControlManager playerControlManager = new PlayerControlManager(this);
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(playerControlManager);

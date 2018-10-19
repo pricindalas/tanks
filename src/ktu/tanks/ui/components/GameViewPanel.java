@@ -30,7 +30,7 @@ public class GameViewPanel extends JComponent {
     protected void paintComponent(Graphics g) {
         g.setColor(bgColor);
         g.fillRect(0, 0, SIZE, SIZE);
-        System.out.printf("Rendering frame, %d tanks\n", tanks.size());
+        //System.out.printf("Rendering frame, %d tanks\n", tanks.size());
         for (Renderable tank : tanks) {
             tank.render(g);
         }

@@ -30,7 +30,7 @@ public class Tank extends PlayerEntity implements Renderable {
     }
 
     public void render(Graphics g) {
-        System.out.println("Rendering " + playerName);
+        //System.out.println("Rendering " + playerName);
         g.drawImage(getImage(), x, y, null);
     }
 
