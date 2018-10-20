@@ -64,6 +64,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
                 }
 
                 if (!exists) {
+                    System.out.printf("Player %s joined.\n", pl.getName());
                     gameTanks.add(new Tank(pl.getPosX(), pl.getPosY(), pl.getDirection(), 10, pl.getName(), pl.getHealth()));
                 }
             }
@@ -83,7 +84,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
                     if (!exists && !player.getName().equals(tank.getPlayerName())) {
                         tanksToRemove.add(tank);
-                        System.out.printf("Player added %s", tank.getPlayerName());
+                        System.out.printf("Player %s disconnected.\n", tank.getPlayerName());
                     }
                 }
 
