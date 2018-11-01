@@ -4,8 +4,10 @@ import ktu.tanks.Direction;
 import ktu.tanks.GameTicker;
 import ktu.tanks.PlayerControlManager;
 import ktu.tanks.Tickable;
-import ktu.tanks.entities.Tank;
-import ktu.tanks.entities.base.PlayerEntity;
+import ktu.tanks.decorators.NamedPlayerEntity;
+import ktu.tanks.entities.HeavyTank;
+import ktu.tanks.entities.PlayerEntity;
+import ktu.tanks.entities.base.Entity;
 import ktu.tanks.models.Player;
 import ktu.tanks.net.HttpRequestSender;
 import ktu.tanks.ui.components.GameViewPanel;
@@ -21,8 +23,8 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
     private GameViewPanel gameView;
     private GameTicker gameTicker;
     private GameTicker networkTicker;
-    private Tank playerTank;
-    private Player player;
+    PlayerEntity playerEntity;
+    Player player;
 
     private final Toolkit toolkit;
 
@@ -34,10 +36,12 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("Tankeliai");
 
-        playerTank = new Tank(player.getPosX(), player.getPosY(), player.getDirection(), 4, player.getName(), player.getHealth());
+        playerEntity = new PlayerEntity(player.getName(), getPlayerTank(player));
+        playerEntity = new NamedPlayerEntity(playerEntity);
+
         gameView = new GameViewPanel(new ArrayList<>());
 
-        gameView.getTanks().add(playerTank);
+        gameView.getTanks().add(playerEntity);
 
         this.add(gameView);
         this.addWindowListener(this);
@@ -54,18 +58,19 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
             for (Player pl : players) {
                 boolean exists = false;
-                for (PlayerEntity tank : gameTanks) {
-                    if (tank.getPlayerName().equals(pl.getName())) {
+                for (PlayerEntity plEntity : gameTanks) {
+                    if (plEntity.getPlayerName().equals(pl.getName())) {
                         exists = true;
-                        tank.setX(pl.getPosX());
-                        tank.setY(pl.getPosY());
-                        tank.setDirection(pl.getDirection());
+                        plEntity.getPlayerEntity().setX(pl.getPosX());
+                        plEntity.getPlayerEntity().setY(pl.getPosY());
+                        plEntity.getPlayerEntity().setDirection(pl.getDirection());
                     }
                 }
 
                 if (!exists) {
                     System.out.printf("Player %s joined.\n", pl.getName());
-                    gameTanks.add(new Tank(pl.getPosX(), pl.getPosY(), pl.getDirection(), 10, pl.getName(), pl.getHealth()));
+                    gameTanks.add(new NamedPlayerEntity(new PlayerEntity(pl.getName(), getPlayerTank(pl))));
+                    //gameTanks.add(new Tank2(pl.getPosX(), pl.getPosY(), pl.getDirection(), 10, pl.getName(), pl.getHealth()));
                 }
             }
 
@@ -102,10 +107,10 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
     @Override
     public void tick() {
-        playerTank.tick();
-        player.setPosX(playerTank.getX());
-        player.setPosY(playerTank.getY());
-        player.setDirection(playerTank.getDirection());
+        playerEntity.getPlayerEntity().tick();
+        player.setPosX(playerEntity.getPlayerEntity().getX());
+        player.setPosY(playerEntity.getPlayerEntity().getY());
+        player.setDirection(playerEntity.getPlayerEntity().getDirection());
 
         SwingUtilities.invokeLater(() -> gameView.repaint());
 
@@ -152,12 +157,24 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
     @Override
     public void startMoving(Direction direction) {
-        playerTank.setDirection(direction);
-        playerTank.setMoving(true);
+        playerEntity.getPlayerEntity().setDirection(direction);
+        playerEntity.getPlayerEntity().setMoving(true);
     }
 
     @Override
     public void stopMoving() {
-        playerTank.setMoving(false);
+        playerEntity.getPlayerEntity().setMoving(false);
+    }
+
+    private Entity getPlayerTank(Player player) {
+        HeavyTank tank = new HeavyTank();
+        tank.setModel("HT");
+        tank.setX(player.getPosX());
+        tank.setY(player.getPosY());
+        tank.setDirection(player.getDirection());
+        tank.setHealth(player.getHealth());
+        tank.setMovementSpeed(5);
+
+        return tank;
     }
 }

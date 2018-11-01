@@ -1,6 +1,6 @@
 package ktu.tanks.builders;
 
-import ktu.tanks.entities.Tank;
+import ktu.tanks.entities.base.Tank;
 
 public abstract class TankBuilder {
 
@@ -8,13 +8,11 @@ public abstract class TankBuilder {
 
     abstract TankBuilder startNew();
 
-    abstract TankBuilder addChassis();
+    abstract TankBuilder setModel(String model);
 
-    abstract TankBuilder addTracks();
+    abstract TankBuilder setHealth(int health);
 
-    abstract TankBuilder addEngine();
-
-    abstract TankBuilder addTurret();
+    abstract TankBuilder setMovementSpeed(int movementSpeed);
 
     public Tank finish() {
         return tank;

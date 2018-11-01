@@ -1,7 +1,6 @@
 package ktu.tanks.ui.components;
 
-import ktu.tanks.decorators.Renderable;
-import ktu.tanks.entities.base.PlayerEntity;
+import ktu.tanks.entities.PlayerEntity;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,8 +30,8 @@ public class GameViewPanel extends JComponent {
         g.setColor(bgColor);
         g.fillRect(0, 0, SIZE, SIZE);
         //System.out.printf("Rendering frame, %d tanks\n", tanks.size());
-        for (Renderable tank : tanks) {
-            tank.render(g);
+        for (PlayerEntity playerEntity : tanks) {
+            playerEntity.render(g);
         }
         g.setColor(textColor);
         g.drawString(String.valueOf(ticks++), 10, 10);
