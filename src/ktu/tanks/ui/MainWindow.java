@@ -4,6 +4,7 @@ import ktu.tanks.Direction;
 import ktu.tanks.GameTicker;
 import ktu.tanks.PlayerControlManager;
 import ktu.tanks.Tickable;
+import ktu.tanks.adapters.PlayerAdapter;
 import ktu.tanks.decorators.NamedPlayerEntity;
 import ktu.tanks.entities.HeavyTank;
 import ktu.tanks.entities.PlayerEntity;
@@ -23,8 +24,8 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
     private GameViewPanel gameView;
     private GameTicker gameTicker;
     private GameTicker networkTicker;
-    PlayerEntity playerEntity;
-    Player player;
+    private PlayerEntity playerEntity;
+    private Player player;
 
     private final Toolkit toolkit;
 
@@ -38,6 +39,8 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
         playerEntity = new PlayerEntity(player.getName(), getPlayerTank(player));
         playerEntity = new NamedPlayerEntity(playerEntity);
+
+//        this.player = new PlayerAdapter(playerEntity);
 
         gameView = new GameViewPanel(new ArrayList<>());
 
@@ -70,7 +73,6 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
                 if (!exists) {
                     System.out.printf("Player %s joined.\n", pl.getName());
                     gameTanks.add(new NamedPlayerEntity(new PlayerEntity(pl.getName(), getPlayerTank(pl))));
-                    //gameTanks.add(new Tank2(pl.getPosX(), pl.getPosY(), pl.getDirection(), 10, pl.getName(), pl.getHealth()));
                 }
             }
 
