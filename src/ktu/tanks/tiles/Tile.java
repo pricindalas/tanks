@@ -1,6 +1,8 @@
 package ktu.tanks.tiles;
 
+import ktu.tanks.converters.PositionConverter;
 import ktu.tanks.decorators.Renderable;
+import ktu.tanks.ui.Viewport;
 
 import java.awt.*;
 
@@ -11,23 +13,42 @@ public class Tile implements Renderable {
 
     private TileManager tileManager;
 
-    public Tile(TileManager tileManager, int tileId, int indX, int indY) {
-        this.tileManager = tileManager;
+    public Tile() {}
+
+    public int getTileId() {
+        return tileId;
+    }
+
+    public void setTileId(int tileId) {
         this.tileId = tileId;
+    }
+
+    public int getIndX() {
+        return indX;
+    }
+
+    public void setIndX(int indX) {
         this.indX = indX;
+    }
+
+    public int getIndY() {
+        return indY;
+    }
+
+    public void setIndY(int indY) {
         this.indY = indY;
     }
 
-    public int getX() {
-        return indX * 64;
+    public TileManager getTileManager() {
+        return tileManager;
     }
 
-    public int getY() {
-        return indY * 64;
+    public void setTileManager(TileManager tileManager) {
+        this.tileManager = tileManager;
     }
 
     @Override
-    public void render(Graphics g) {
-        g.drawImage(tileManager.getTileImage(tileId), getX(), getY(), null);
+    public void render(Graphics g, Viewport viewport) {
+        g.drawImage(tileManager.getTileImage(tileId), viewport.transformX(PositionConverter.IndToPos(indX)), viewport.transformY(PositionConverter.IndToPos(indY)), null);
     }
 }

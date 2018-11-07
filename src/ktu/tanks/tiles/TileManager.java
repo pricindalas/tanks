@@ -10,9 +10,12 @@ public class TileManager {
 
     private List<TileImageHolder> tiles;
     private BufferedImage emptyImage;
+
     public TileManager() {
         loadResources();
-    }    private void loadResources() {
+    }
+
+    private void loadResources() {
         tiles = new ArrayList<>();
         tiles.add(new TileImageHolder(ImageLoader.loadImage("tiles/grass-1.png"), 1));
         tiles.add(new TileImageHolder(ImageLoader.loadImage("tiles/brick-1.png"), 2));
@@ -21,7 +24,7 @@ public class TileManager {
         emptyImage = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
     }
 
-    public BufferedImage getTileImage(int tileId) {
+    BufferedImage getTileImage(int tileId) {
         for (TileImageHolder tile : tiles) {
             if (tile.getTileId() == tileId) {
                 return tile.getImage();

@@ -4,13 +4,13 @@ import ktu.tanks.Direction;
 import ktu.tanks.GameTicker;
 import ktu.tanks.PlayerControlManager;
 import ktu.tanks.Tickable;
-import ktu.tanks.adapters.PlayerAdapter;
 import ktu.tanks.decorators.NamedPlayerEntity;
 import ktu.tanks.entities.HeavyTank;
 import ktu.tanks.entities.PlayerEntity;
 import ktu.tanks.entities.base.Entity;
 import ktu.tanks.models.Player;
 import ktu.tanks.net.HttpRequestSender;
+import ktu.tanks.tiles.Tile;
 import ktu.tanks.ui.components.GameViewPanel;
 
 import javax.swing.*;
@@ -19,7 +19,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainWindow extends JFrame implements Tickable, WindowListener, PlayerControlManager.PlayerControlActionListener {
+public class MainWindow extends JFrame implements Tickable, WindowListener, PlayerControlManager.PlayerControlActionListener, ViewportObserver {
 
     private GameViewPanel gameView;
     private GameTicker gameTicker;
@@ -44,7 +44,8 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
         gameView = new GameViewPanel(new ArrayList<>());
 
-        gameView.getTanks().add(playerEntity);
+        gameView.getPlayers().add(playerEntity);
+        gameView.getViewport().attachObserver(this);
 
         this.add(gameView);
         this.addWindowListener(this);
@@ -57,7 +58,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
         networkTicker = new GameTicker(() -> {
             Player[] players  = HttpRequestSender.postJson(Player[].class, player, "update");
 
-            List<PlayerEntity> gameTanks = gameView.getTanks();
+            List<PlayerEntity> gameTanks = gameView.getPlayers();
 
             for (Player pl : players) {
                 boolean exists = false;
@@ -113,6 +114,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
         player.setPosX(playerEntity.getPlayerEntity().getX());
         player.setPosY(playerEntity.getPlayerEntity().getY());
         player.setDirection(playerEntity.getPlayerEntity().getDirection());
+        gameView.getViewport().moveTo(playerEntity.getPlayerEntity().getX(), playerEntity.getPlayerEntity().getY());
 
         SwingUtilities.invokeLater(() -> gameView.repaint());
 
@@ -129,7 +131,9 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
     public void windowClosing(WindowEvent windowEvent) {
         gameTicker.stop();
         networkTicker.stop();
+        gameView.getViewport().detachObserver(this);
         String response = HttpRequestSender.post(player.getName(), "logout");
+        System.out.println(response);
     }
 
     @Override
@@ -178,5 +182,13 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
         tank.setMovementSpeed(5);
 
         return tank;
+    }
+
+    @Override
+    public void update(Viewport viewport) {
+        System.out.println(viewport.getIndX() + " " + viewport.getIndY());
+        Tile[] tiles = HttpRequestSender.postJson(Tile[].class, viewport, "level");
+        gameView.setTiles(tiles);
+        System.out.println("Tiles: " + tiles.length);
     }
 }

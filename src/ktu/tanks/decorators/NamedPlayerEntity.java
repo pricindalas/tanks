@@ -2,6 +2,7 @@ package ktu.tanks.decorators;
 
 import ktu.tanks.decorators.base.PlayerEntityDecorator;
 import ktu.tanks.entities.PlayerEntity;
+import ktu.tanks.ui.Viewport;
 
 import java.awt.*;
 
@@ -12,9 +13,9 @@ public class NamedPlayerEntity extends PlayerEntityDecorator {
     }
 
     @Override
-    public void render(Graphics g) {
-        getPlayerEntity().render(g);
+    public void render(Graphics g, Viewport viewport) {
+        getPlayerEntity().render(g, viewport);
         g.setColor(Color.BLACK);
-        g.drawString(getPlayerName(), getPlayerEntity().getX(), getPlayerEntity().getY());
+        g.drawString(getPlayerName(), viewport.transformX(getPlayerEntity().getX()), viewport.transformY(getPlayerEntity().getY()));
     }
 }

@@ -2,6 +2,7 @@ package ktu.tanks.entities;
 
 import ktu.tanks.decorators.Renderable;
 import ktu.tanks.entities.base.Entity;
+import ktu.tanks.ui.Viewport;
 
 import java.awt.*;
 
@@ -34,7 +35,7 @@ public class PlayerEntity implements Renderable {
     }
 
     @Override
-    public void render(Graphics g) {
-        playerEntity.render(g);
+    public void render(Graphics g, Viewport viewport) {
+        playerEntity.render(g, viewport);
     }
 }
