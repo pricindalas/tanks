@@ -4,6 +4,7 @@ import ktu.tanks.Direction;
 import ktu.tanks.GameTicker;
 import ktu.tanks.PlayerControlManager;
 import ktu.tanks.Tickable;
+import ktu.tanks.adapters.PlayerAdapter;
 import ktu.tanks.decorators.NamedPlayerEntity;
 import ktu.tanks.entities.HeavyTank;
 import ktu.tanks.entities.PlayerEntity;
@@ -30,7 +31,6 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
     private final Toolkit toolkit;
 
     public MainWindow(Player player) {
-        this.player = player;
         this.toolkit = Toolkit.getDefaultToolkit();
 
         this.getContentPane().add(new JPanel());
@@ -39,8 +39,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
         playerEntity = new PlayerEntity(player.getName(), getPlayerTank(player));
         playerEntity = new NamedPlayerEntity(playerEntity);
-
-//        this.player = new PlayerAdapter(playerEntity);
+        this.player = new PlayerAdapter(playerEntity);
 
         gameView = new GameViewPanel(new ArrayList<>());
 
@@ -56,7 +55,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
         gameTicker = new GameTicker(this, 20);
         networkTicker = new GameTicker(() -> {
-            Player[] players  = HttpRequestSender.postJson(Player[].class, player, "update");
+            Player[] players  = HttpRequestSender.postJson(Player[].class, this.player, "update");
 
             List<PlayerEntity> gameTanks = gameView.getPlayers();
 
@@ -65,9 +64,9 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
                 for (PlayerEntity plEntity : gameTanks) {
                     if (plEntity.getPlayerName().equals(pl.getName())) {
                         exists = true;
-                        plEntity.getPlayerEntity().setX(pl.getPosX());
-                        plEntity.getPlayerEntity().setY(pl.getPosY());
-                        plEntity.getPlayerEntity().setDirection(pl.getDirection());
+                        plEntity.getEntity().setX(pl.getPosX());
+                        plEntity.getEntity().setY(pl.getPosY());
+                        plEntity.getEntity().setDirection(pl.getDirection());
                     }
                 }
 
@@ -110,11 +109,8 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
     @Override
     public void tick() {
-        playerEntity.getPlayerEntity().tick();
-        player.setPosX(playerEntity.getPlayerEntity().getX());
-        player.setPosY(playerEntity.getPlayerEntity().getY());
-        player.setDirection(playerEntity.getPlayerEntity().getDirection());
-        gameView.getViewport().moveTo(playerEntity.getPlayerEntity().getX(), playerEntity.getPlayerEntity().getY());
+        playerEntity.getEntity().tick();
+        gameView.getViewport().moveTo(playerEntity.getEntity().getX(), playerEntity.getEntity().getY());
 
         SwingUtilities.invokeLater(() -> gameView.repaint());
 
@@ -163,13 +159,13 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
     @Override
     public void startMoving(Direction direction) {
-        playerEntity.getPlayerEntity().setDirection(direction);
-        playerEntity.getPlayerEntity().setMoving(true);
+        playerEntity.getEntity().setDirection(direction);
+        playerEntity.getEntity().setMoving(true);
     }
 
     @Override
     public void stopMoving() {
-        playerEntity.getPlayerEntity().setMoving(false);
+        playerEntity.getEntity().setMoving(false);
     }
 
     private Entity getPlayerTank(Player player) {

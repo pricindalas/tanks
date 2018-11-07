@@ -14,8 +14,8 @@ public class NamedPlayerEntity extends PlayerEntityDecorator {
 
     @Override
     public void render(Graphics g, Viewport viewport) {
-        getPlayerEntity().render(g, viewport);
+        getEntity().render(g, viewport);
         g.setColor(Color.BLACK);
-        g.drawString(getPlayerName(), viewport.transformX(getPlayerEntity().getX()), viewport.transformY(getPlayerEntity().getY()));
+        g.drawString(getPlayerName(), viewport.transformX(getEntity().getX()), viewport.transformY(getEntity().getY()));
     }
 }
