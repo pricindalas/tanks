@@ -1,7 +1,5 @@
 package ktu.tanks;
 
-import ktu.tanks.builders.TankBuilder;
-import ktu.tanks.entities.Tank;
 import ktu.tanks.models.Player;
 import ktu.tanks.net.HttpRequestSender;
 import ktu.tanks.ui.MainWindow;
