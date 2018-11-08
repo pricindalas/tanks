@@ -13,6 +13,9 @@ import ktu.tanks.factories.TankFactory;
 import ktu.tanks.health.HealthPrototype;
 import ktu.tanks.models.Player;
 import ktu.tanks.net.HttpRequestSender;
+import ktu.tanks.strategy.PlayerNameAlgorithm;
+import ktu.tanks.strategy.RandomAlgorithm;
+import ktu.tanks.strategy.base.SelectionAlgorithm;
 import ktu.tanks.tiles.Tile;
 import ktu.tanks.health.Health;
 import ktu.tanks.ui.components.GameViewPanel;
@@ -32,6 +35,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
     private PlayerEntity playerEntity;
     private Player player;
     private ControlInvoker control;
+    private SelectionAlgorithm algorithm;
 
     private List<Health> healths;
 
@@ -44,6 +48,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("Tankeliai");
 
+        algorithm = new RandomAlgorithm();
         playerEntity = new PlayerEntity(player.getName(), getPlayerTank(player));
         playerEntity = new NamedPlayerEntity(playerEntity);
         this.player = new PlayerAdapter(playerEntity);
@@ -205,7 +210,8 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
     }
 
     private Entity getPlayerTank(Player player) {
-        Entity tank = new TankFactory().produce("heavyTank");
+        String temp = algorithm.getTankType(player.getName());
+        Entity tank = new TankFactory().produce(temp);
         tank.setX(player.getPosX());
         tank.setY(player.getPosY());
         tank.setDirection(player.getDirection());
