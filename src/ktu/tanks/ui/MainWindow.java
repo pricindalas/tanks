@@ -5,6 +5,7 @@ import ktu.tanks.GameTicker;
 import ktu.tanks.PlayerControlManager;
 import ktu.tanks.Tickable;
 import ktu.tanks.adapters.PlayerAdapter;
+import ktu.tanks.command.ControlInvoker;
 import ktu.tanks.decorators.NamedPlayerEntity;
 import ktu.tanks.entities.PlayerEntity;
 import ktu.tanks.entities.base.Entity;
@@ -30,6 +31,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
     private GameTicker networkTicker;
     private PlayerEntity playerEntity;
     private Player player;
+    private ControlInvoker control;
 
     private List<Health> healths;
 
@@ -45,6 +47,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
         playerEntity = new PlayerEntity(player.getName(), getPlayerTank(player));
         playerEntity = new NamedPlayerEntity(playerEntity);
         this.player = new PlayerAdapter(playerEntity);
+        control = new ControlInvoker();
 
         gameView = new GameViewPanel(new ArrayList<>());
 
@@ -180,13 +183,25 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
     @Override
     public void startMoving(Direction direction) {
-        playerEntity.getEntity().setDirection(direction);
-        playerEntity.getEntity().setMoving(true);
+        switch (direction){
+            case Up:
+                control.moveUp(playerEntity);
+                break;
+            case Down:
+                control.moveDown(playerEntity);
+                break;
+            case Left:
+                control.moveLeft(playerEntity);
+                break;
+            case Right:
+                control.moveRight(playerEntity);
+                break;
+        }
     }
 
     @Override
     public void stopMoving() {
-        playerEntity.getEntity().setMoving(false);
+        control.stop(playerEntity);
     }
 
     private Entity getPlayerTank(Player player) {
