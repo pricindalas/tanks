@@ -1,6 +1,4 @@
-package ktu.tanks.decorators;
-
-import ktu.tanks.ui.Viewport;
+package ktu.tanks.ui;
 
 import java.awt.*;
 

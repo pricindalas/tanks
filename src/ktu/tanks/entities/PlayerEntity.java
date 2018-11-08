@@ -1,6 +1,6 @@
 package ktu.tanks.entities;
 
-import ktu.tanks.decorators.Renderable;
+import ktu.tanks.ui.Renderable;
 import ktu.tanks.entities.base.Entity;
 import ktu.tanks.ui.Viewport;
 
