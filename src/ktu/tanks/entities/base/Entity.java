@@ -1,7 +1,7 @@
 package ktu.tanks.entities.base;
 
 import ktu.tanks.Direction;
-import ktu.tanks.decorators.Renderable;
+import ktu.tanks.ui.Renderable;
 
 import java.awt.image.BufferedImage;
 

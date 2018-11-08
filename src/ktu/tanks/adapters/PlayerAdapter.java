@@ -19,47 +19,47 @@ public class PlayerAdapter extends Player {
 
     @Override
     public void setName(String name) {
-
+        playerEntity.setPlayerName(name);
     }
 
     @Override
     public int getHealth() {
-        return playerEntity.getPlayerEntity().getHealth();
+        return playerEntity.getEntity().getHealth();
     }
 
     @Override
     public void setHealth(int health) {
-
+        playerEntity.getEntity().setHealth(health);
     }
 
     @Override
     public int getPosX() {
-        return playerEntity.getPlayerEntity().getX();
+        return playerEntity.getEntity().getX();
     }
 
     @Override
     public void setPosX(int posX) {
-
+        playerEntity.getEntity().setX(posX);
     }
 
     @Override
     public int getPosY() {
-        return playerEntity.getPlayerEntity().getY();
+        return playerEntity.getEntity().getY();
     }
 
     @Override
     public void setPosY(int posY) {
-
+        playerEntity.getEntity().setY(posY);
     }
 
     @Override
     public Direction getDirection() {
-        return playerEntity.getPlayerEntity().getDirection();
+        return playerEntity.getEntity().getDirection();
     }
 
     @Override
     public void setDirection(Direction direction) {
-
+        playerEntity.getEntity().setDirection(direction);
     }
 
     @Override
@@ -69,6 +69,6 @@ public class PlayerAdapter extends Player {
 
     @Override
     public void setLives(int lives) {
-
+        playerEntity.setLives(lives);
     }
 }

@@ -14,7 +14,7 @@ public class Player {
 
     private int lives;
 
-    public Player() { }
+    protected Player() { }
 
     public Player(int id, String name, int health, int posX, int posY, Direction direction, int lives) {
         this.id = id;
