@@ -6,9 +6,9 @@ import ktu.tanks.PlayerControlManager;
 import ktu.tanks.Tickable;
 import ktu.tanks.adapters.PlayerAdapter;
 import ktu.tanks.decorators.NamedPlayerEntity;
-import ktu.tanks.entities.HeavyTank;
 import ktu.tanks.entities.PlayerEntity;
 import ktu.tanks.entities.base.Entity;
+import ktu.tanks.factories.TankFactory;
 import ktu.tanks.models.Player;
 import ktu.tanks.net.HttpRequestSender;
 import ktu.tanks.tiles.Tile;
@@ -169,14 +169,11 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
     }
 
     private Entity getPlayerTank(Player player) {
-        HeavyTank tank = new HeavyTank();
-        tank.setModel("HT");
+        Entity tank = new TankFactory().produce("heavyTank");
         tank.setX(player.getPosX());
         tank.setY(player.getPosY());
         tank.setDirection(player.getDirection());
         tank.setHealth(player.getHealth());
-        tank.setMovementSpeed(5);
-
         return tank;
     }
 
