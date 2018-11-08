@@ -1,6 +1,9 @@
 package ktu.tanks.ui.components;
 
+import ktu.tanks.entities.HealthEntity;
 import ktu.tanks.entities.PlayerEntity;
+import ktu.tanks.health.Health;
+import ktu.tanks.health.HealthManager;
 import ktu.tanks.tiles.Tile;
 import ktu.tanks.tiles.TileManager;
 import ktu.tanks.ui.Viewport;
@@ -15,6 +18,7 @@ public class GameViewPanel extends JComponent {
     private static final int SIZE = 512;
 
     private List<PlayerEntity> players;
+    private List<Health> healths;
     private List<Tile> tiles;
 
     private final Color bgColor = new Color(96, 96, 128);
@@ -24,6 +28,9 @@ public class GameViewPanel extends JComponent {
 
     private Viewport viewport;
     private TileManager tileManager;
+    private HealthManager healthManager;
+
+    private Health healthPrototype;
 
     public GameViewPanel(List<PlayerEntity> players) {
         Dimension dimension = new Dimension();
@@ -34,6 +41,10 @@ public class GameViewPanel extends JComponent {
         this.viewport = new Viewport(SIZE, SIZE);
         this.tileManager = new TileManager();
         this.tiles = new ArrayList<>();
+
+        this.healthManager = new HealthManager();
+        this.healths = new ArrayList<>();
+        healthPrototype = new Health(1);
     }
 
     @Override
@@ -43,6 +54,10 @@ public class GameViewPanel extends JComponent {
 
         for (Tile tile : tiles) {
             tile.render(g, viewport);
+        }
+
+        for (Health health : healths) {
+            health.render(g, viewport);
         }
 
         for (PlayerEntity playerEntity : players) {
@@ -67,5 +82,30 @@ public class GameViewPanel extends JComponent {
             tile.setTileManager(tileManager);
             this.tiles.add(tile);
         }
+    }
+
+    public void setHealths(List<Health> healths) {
+//        this.healths.clear();
+//        for (Health health : healths) {
+//            health.setHealthManager(healthManager);
+//            this.healths.add(health);
+//        }
+        this.healths = healths;
+        for (Health health : healths) {
+            health.setHealthManager(healthManager);
+            health.incTime();
+            if(health.getTime() > 2){
+                this.healths.remove(health);
+            }
+//            this.healths.add(health);
+        }
+    }
+
+    public List<Health> getHealths(){
+        return healths;
+    }
+
+    public Health getHealthPrototype(){
+        return healthPrototype;
     }
 }
