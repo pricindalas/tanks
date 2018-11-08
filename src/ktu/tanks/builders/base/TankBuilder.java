@@ -8,11 +8,20 @@ public abstract class TankBuilder {
 
     public abstract TankBuilder startNew();
 
-    public abstract TankBuilder setModel(String model);
+    public TankBuilder setModel(String model) {
+        tank.setModel(model);
+        return this;
+    }
 
-    public abstract TankBuilder setHealth(int health);
+    public TankBuilder setHealth(int health) {
+        tank.setHealth(health);
+        return this;
+    }
 
-    public abstract TankBuilder setMovementSpeed(int movementSpeed);
+    public TankBuilder setMovementSpeed(int movementSpeed) {
+        tank.setMovementSpeed(movementSpeed);
+        return this;
+    }
 
     public Tank finish() {
         return tank;

@@ -11,21 +11,4 @@ public class LightTankBuilder extends TankBuilder {
         return this;
     }
 
-    @Override
-    public TankBuilder setModel(String model) {
-        tank.setModel(model);
-        return this;
-    }
-
-    @Override
-    public TankBuilder setHealth(int health) {
-        tank.setHealth(health);
-        return this;
-    }
-
-    @Override
-    public TankBuilder setMovementSpeed(int movementSpeed) {
-        tank.setMovementSpeed(movementSpeed);
-        return this;
-    }
 }
