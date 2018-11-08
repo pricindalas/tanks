@@ -8,9 +8,11 @@ import ktu.tanks.decorators.NamedPlayerEntity;
 import ktu.tanks.entities.HeavyTank;
 import ktu.tanks.entities.PlayerEntity;
 import ktu.tanks.entities.base.Entity;
+import ktu.tanks.health.HealthPrototype;
 import ktu.tanks.models.Player;
 import ktu.tanks.net.HttpRequestSender;
 import ktu.tanks.tiles.Tile;
+import ktu.tanks.health.Health;
 import ktu.tanks.ui.components.GameViewPanel;
 
 import javax.swing.*;
@@ -23,9 +25,12 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
     private GameViewPanel gameView;
     private GameTicker gameTicker;
+    private GameTicker powerTicker;
     private GameTicker networkTicker;
     private PlayerEntity playerEntity;
     private Player player;
+
+    private List<Health> healths;
 
     private final Toolkit toolkit;
 
@@ -55,6 +60,20 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
         this.setVisible(true);
 
         gameTicker = new GameTicker(this, 20);
+        powerTicker = new GameTicker(() -> {
+            Health health = gameView.getHealthPrototype();
+            healths = gameView.getHealths();
+            if (healths.size() <= 10){
+                System.out.printf("New health. %d", healths.size());
+                System.out.printf("\n");
+                Health hl = (Health) health.shallowCopy();
+                System.out.printf("Time: %d ", hl.getTime());
+                System.out.printf("\n");
+                healths.add(hl);
+            }
+            gameView.setHealths(healths);
+        }
+        , 5000);
         networkTicker = new GameTicker(() -> {
             Player[] players  = HttpRequestSender.postJson(Player[].class, player, "update");
 
@@ -125,12 +144,14 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
     public void windowOpened(WindowEvent windowEvent) {
         gameTicker.start();
         networkTicker.start();
+        powerTicker.start();
     }
 
     @Override
     public void windowClosing(WindowEvent windowEvent) {
         gameTicker.stop();
         networkTicker.stop();
+        powerTicker.stop();
         gameView.getViewport().detachObserver(this);
         String response = HttpRequestSender.post(player.getName(), "logout");
         System.out.println(response);
