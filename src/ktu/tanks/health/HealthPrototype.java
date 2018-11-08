@@ -1,7 +1,7 @@
 package ktu.tanks.health;
 
 import ktu.tanks.converters.PositionConverter;
-import ktu.tanks.decorators.Renderable;
+import ktu.tanks.ui.Renderable;
 import ktu.tanks.ui.Viewport;
 
 import java.awt.*;
