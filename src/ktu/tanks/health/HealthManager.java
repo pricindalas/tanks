@@ -17,8 +17,8 @@ public class HealthManager {
 
     private void loadResources() {
         healths = new ArrayList<>();
-        healths.add(new HealthHolder(ImageLoader.loadImage("tiles/water-1.png"), 1));
-        healths.add(new HealthHolder(ImageLoader.loadImage("tiles/water-1.png"), 2));
+        healths.add(new HealthHolder(ImageLoader.loadImage("mush.png"), 1));
+//        healths.add(new HealthHolder(ImageLoader.loadImage("tiles/water-1.png"), 2));
         emptyImage = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
     }
 

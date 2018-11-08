@@ -1,6 +1,5 @@
 package ktu.tanks.ui.components;
 
-import ktu.tanks.entities.HealthEntity;
 import ktu.tanks.entities.PlayerEntity;
 import ktu.tanks.health.Health;
 import ktu.tanks.health.HealthManager;
@@ -85,19 +84,13 @@ public class GameViewPanel extends JComponent {
     }
 
     public void setHealths(List<Health> healths) {
-//        this.healths.clear();
-//        for (Health health : healths) {
-//            health.setHealthManager(healthManager);
-//            this.healths.add(health);
-//        }
         this.healths = healths;
         for (Health health : healths) {
             health.setHealthManager(healthManager);
             health.incTime();
-            if(health.getTime() > 2){
-                this.healths.remove(health);
-            }
-//            this.healths.add(health);
+//            if(health.getTime() > 2){
+//                this.healths.remove(health);
+//            }
         }
     }
 
