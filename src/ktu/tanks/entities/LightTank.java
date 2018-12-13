@@ -5,6 +5,7 @@ import ktu.tanks.util.ImageLoader;
 
 public class LightTank extends Tank {
 
+
     @Override
     protected void loadImages() {
         this.imgUp = ImageLoader.loadImage("tank/t2n.png");

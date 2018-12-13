@@ -1,6 +1,11 @@
 package ktu.tanks;
 
 import ktu.tanks.converters.KeyToDirectionConverter;
+import ktu.tanks.entities.HeavyTank;
+import ktu.tanks.entities.LightTank;
+import ktu.tanks.entities.Mediator;
+import ktu.tanks.entities.TankMediator;
+import ktu.tanks.entities.base.Tank;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -22,8 +27,18 @@ public class PlayerControlManager implements KeyEventDispatcher {
                     break;
 
                 isKeyDown = true;
+                System.out.println("Code : " + e.getKeyCode());
                 Direction direction = KeyToDirectionConverter.getDirection(e.getKeyCode());
+                if (e.getKeyCode() == 32){
+                    Tank hTank = new HeavyTank();
+                    Tank lTank = new LightTank();
 
+                    Mediator med = new TankMediator();
+                    med.registerHeavy(hTank);
+                    med.registerLight(lTank);
+
+                    med.heavyAttack();
+                }
                 if (direction != null) {
                     playerControlActionListener.startMoving(KeyToDirectionConverter.getDirection(e.getKeyCode()));
                 }

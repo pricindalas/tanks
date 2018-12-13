@@ -1,7 +1,10 @@
 package ktu.tanks.entities;
 
+import ktu.tanks.entities.base.Tank;
+
 public interface Mediator {
-    void registerLight(LightTank l);
-    void registerHeavy(HeavyTank h);
-    void attack();
+    void registerLight(Tank l);
+    void registerHeavy(Tank h);
+    void heavyAttack();
+    void lightAttack();
 }
