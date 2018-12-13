@@ -1,6 +1,7 @@
 package ktu.tanks.ui.components;
 
-import ktu.tanks.entities.PlayerEntity;
+import ktu.tanks.entities.*;
+import ktu.tanks.entities.base.Tank;
 import ktu.tanks.health.Health;
 import ktu.tanks.health.HealthManager;
 import ktu.tanks.iterator.PlayerConcreteContainer;
@@ -101,6 +102,10 @@ public class GameViewPanel extends JComponent {
             tile.setTileManager(tileManager);
             this.tiles.add(tile);
         }
+    }
+
+    public void attackTank(){
+
     }
 
     public void setHealths(List<Health> healths) {
