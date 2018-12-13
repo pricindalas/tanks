@@ -65,6 +65,8 @@ public class GameViewPanel extends JComponent {
 
         g.setColor(textColor);
         g.drawString("X: " + viewport.getX() + " Y: " + viewport.getY() + " Frame: " + ticks++, 10, 10);
+        g.drawString("Logged Users: ", 10, 25);
+
     }
 
     public List<PlayerEntity> getPlayers() {
