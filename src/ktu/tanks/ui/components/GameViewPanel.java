@@ -10,6 +10,9 @@ import ktu.tanks.models.Player;
 import ktu.tanks.tiles.Tile;
 import ktu.tanks.tiles.TileManager;
 import ktu.tanks.ui.Viewport;
+import ktu.tanks.visitor.DistanceCalcInMeters;
+import ktu.tanks.visitor.DistanceCalcInPixels;
+import ktu.tanks.visitor.Visitor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,6 +34,9 @@ public class GameViewPanel extends JComponent {
 
     private int ticks = 0;
 
+    private Visitor distanceCalcInPixels;
+    private Visitor distanceCalcInMeters;
+
     private Viewport viewport;
     private TileManager tileManager;
     private HealthManager healthManager;
@@ -50,6 +56,9 @@ public class GameViewPanel extends JComponent {
         this.healthManager = new HealthManager();
         this.healths = new ArrayList<>();
         healthPrototype = new Health(1);
+
+        this.distanceCalcInPixels = new DistanceCalcInPixels(viewport);
+        this.distanceCalcInMeters = new DistanceCalcInMeters(viewport);
 
         this.playerConcreteContainer = new PlayerConcreteContainer();
     }
@@ -74,13 +83,12 @@ public class GameViewPanel extends JComponent {
         g.setColor(textColor);
         g.drawString("X: " + viewport.getX() + " Y: " + viewport.getY() + " Frame: " + ticks++, 10, 10);
         g.drawString("Logged Users: ", 10, 25);
-        int yHeight = 1;
+
+        int yHeight = 15;
         for(PlayerIterator iter = playerConcreteContainer.getIterator(); iter.hasNext();){
             Player player = iter.next();
-            if(player != null)
-                g.drawString("-> " + player.getName(), 10, 25 + yHeight * 10);
-//            System.out.println("Name : " + name);
-            yHeight++;
+            g.drawString(String.format("-> %s\t[dst: %dpx, %dm]", player.getName(), player.accept(distanceCalcInPixels), player.accept(distanceCalcInMeters)), 10, 25 + yHeight);
+            yHeight +=12;
         }
     }
 

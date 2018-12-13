@@ -3,10 +3,12 @@ package ktu.tanks.health;
 import ktu.tanks.converters.PositionConverter;
 import ktu.tanks.ui.Renderable;
 import ktu.tanks.ui.Viewport;
+import ktu.tanks.visitor.Visitable;
+import ktu.tanks.visitor.Visitor;
 
 import java.awt.*;
 
-public class Health extends HealthPrototype {
+public class Health extends HealthPrototype implements Visitable {
 
 
     public Health(int healthId) {
@@ -26,6 +28,11 @@ public class Health extends HealthPrototype {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public int accept(Visitor v) {
+        return v.visit(this);
     }
 
 //    @Override

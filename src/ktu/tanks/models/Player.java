@@ -1,8 +1,10 @@
 package ktu.tanks.models;
 
 import ktu.tanks.Direction;
+import ktu.tanks.visitor.Visitable;
+import ktu.tanks.visitor.Visitor;
 
-public class Player {
+public class Player implements Visitable {
     private int id;
     private String name;
 
@@ -80,5 +82,10 @@ public class Player {
 
     public void setLives(int lives) {
         this.lives = lives;
+    }
+
+    @Override
+    public int accept(Visitor v) {
+        return v.visit(this);
     }
 }

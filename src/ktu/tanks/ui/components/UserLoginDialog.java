@@ -3,6 +3,7 @@ package ktu.tanks.ui.components;
 import ktu.tanks.DialogCallback;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class UserLoginDialog extends JDialog {
@@ -26,7 +27,6 @@ public class UserLoginDialog extends JDialog {
         buttonOK.addActionListener(e -> {
             String username = usernameTextField.getText();
             if (username.length() > 1) {
-
                 mainAcitivty.dialogConfirmed(usernameTextField.getText(), addressTextField.getText());
             }
         });
@@ -46,4 +46,5 @@ public class UserLoginDialog extends JDialog {
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
                 JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
+
 }
