@@ -3,8 +3,8 @@ package ktu.tanks.ui.components;
 import ktu.tanks.entities.PlayerEntity;
 import ktu.tanks.health.Health;
 import ktu.tanks.health.HealthManager;
-import ktu.tanks.iterator.NameConcreteContainer;
-import ktu.tanks.iterator.NameIterator;
+import ktu.tanks.iterator.PlayerConcreteContainer;
+import ktu.tanks.iterator.PlayerIterator;
 import ktu.tanks.models.Player;
 import ktu.tanks.tiles.Tile;
 import ktu.tanks.tiles.TileManager;
@@ -23,7 +23,7 @@ public class GameViewPanel extends JComponent {
     private List<Health> healths;
     private List<Tile> tiles;
 
-    private NameConcreteContainer nameConcreteContainer;
+    private PlayerConcreteContainer playerConcreteContainer;
 
     private final Color bgColor = new Color(96, 96, 128);
     private final Color textColor = new Color(0, 0, 0);
@@ -50,7 +50,7 @@ public class GameViewPanel extends JComponent {
         this.healths = new ArrayList<>();
         healthPrototype = new Health(1);
 
-        this.nameConcreteContainer = new NameConcreteContainer();
+        this.playerConcreteContainer = new PlayerConcreteContainer();
     }
 
     @Override
@@ -74,7 +74,7 @@ public class GameViewPanel extends JComponent {
         g.drawString("X: " + viewport.getX() + " Y: " + viewport.getY() + " Frame: " + ticks++, 10, 10);
         g.drawString("Logged Users: ", 10, 25);
         int yHeight = 1;
-        for(NameIterator iter = nameConcreteContainer.getIterator(); iter.hasNext();){
+        for(PlayerIterator iter = playerConcreteContainer.getIterator(); iter.hasNext();){
             Player player = iter.next();
             if(player != null)
                 g.drawString("-> " + player.getName(), 10, 25 + yHeight * 10);
@@ -91,8 +91,8 @@ public class GameViewPanel extends JComponent {
         return viewport;
     }
 
-    public void setNameIterator(NameConcreteContainer nameContainer){
-        this.nameConcreteContainer = nameContainer;
+    public void setNameIterator(PlayerConcreteContainer nameContainer){
+        this.playerConcreteContainer = nameContainer;
     }
 
     public void setTiles(Tile[] tiles) {

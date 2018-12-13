@@ -10,12 +10,10 @@ import ktu.tanks.decorators.NamedPlayerEntity;
 import ktu.tanks.entities.PlayerEntity;
 import ktu.tanks.entities.base.Entity;
 import ktu.tanks.factories.TankFactory;
-import ktu.tanks.health.HealthPrototype;
-import ktu.tanks.iterator.NameConcreteContainer;
-import ktu.tanks.iterator.NameIterator;
+import ktu.tanks.iterator.PlayerConcreteContainer;
+import ktu.tanks.iterator.PlayerIterator;
 import ktu.tanks.models.Player;
 import ktu.tanks.net.HttpRequestSender;
-import ktu.tanks.strategy.PlayerNameAlgorithm;
 import ktu.tanks.strategy.RandomAlgorithm;
 import ktu.tanks.strategy.base.SelectionAlgorithm;
 import ktu.tanks.tiles.Tile;
@@ -88,8 +86,8 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
             List<PlayerEntity> gameTanks = gameView.getPlayers();
 
-            NameConcreteContainer nameConcreteContainer = new NameConcreteContainer();
-            NameIterator iter = nameConcreteContainer.getIterator();
+            PlayerConcreteContainer playerConcreteContainer = new PlayerConcreteContainer();
+            PlayerIterator iter = playerConcreteContainer.getIterator();
             iter.add(this.player);
             for (Player pl : players) {
                 boolean exists = false;
@@ -109,7 +107,7 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
                 }
             }
 
-            gameView.setNameIterator(nameConcreteContainer);
+            gameView.setNameIterator(playerConcreteContainer);
 
             if (players.length + 1 < gameTanks.size()) {
 

@@ -2,7 +2,7 @@ package ktu.tanks.iterator;
 
 import ktu.tanks.models.Player;
 
-public interface NameIterator {
+public interface PlayerIterator {
 
     public boolean hasNext();
     public Player next();
