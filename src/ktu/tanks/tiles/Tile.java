@@ -49,6 +49,6 @@ public class Tile implements Renderable {
 
     @Override
     public void render(Graphics g, Viewport viewport) {
-        g.drawImage(tileManager.getTileImage(tileId), viewport.transformX(PositionConverter.IndToPos(indX)), viewport.transformY(PositionConverter.IndToPos(indY)), null);
+        g.drawImage(tileManager.getTileImage(tileId).getImage(), viewport.transformX(PositionConverter.IndToPos(indX)), viewport.transformY(PositionConverter.IndToPos(indY)), null);
     }
 }
