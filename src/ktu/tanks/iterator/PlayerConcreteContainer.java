@@ -24,19 +24,21 @@ public class PlayerConcreteContainer implements PlayerContainer {
         @Override
         public boolean hasNext() {
 
-            if(index < lenght){
+            if (index + 1 < lenght) {
                 return true;
             }
+
             return false;
         }
 
         @Override
         public Player next() {
 
-            if(this.hasNext()){
+            if (this.hasNext()) {
                 index++;
                 return players[index];
             }
+
             return null;
         }
 

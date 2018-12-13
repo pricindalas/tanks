@@ -86,11 +86,8 @@ public class GameViewPanel extends JComponent {
         int yHeight = 15;
         for(PlayerIterator iter = playerConcreteContainer.getIterator(); iter.hasNext();){
             Player player = iter.next();
-
-            if(player != null) {
-                g.drawString(String.format("-> %s\t[dst: %dpx, %dm]", player.getName(), player.accept(distanceCalcInPixels), player.accept(distanceCalcInMeters)), 10, 25 + yHeight);
-                yHeight +=12;
-            }
+            g.drawString(String.format("-> %s\t[dst: %dpx, %dm]", player.getName(), player.accept(distanceCalcInPixels), player.accept(distanceCalcInMeters)), 10, 25 + yHeight);
+            yHeight +=12;
         }
     }
 
