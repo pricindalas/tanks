@@ -1,11 +1,13 @@
 package ktu.tanks.iterator;
 
+import ktu.tanks.models.Player;
+
 public interface NameIterator {
 
     public boolean hasNext();
-    public String next();
-    public void add(String name);
+    public Player next();
+    public void add(Player player);
     public int getIndex();
-//    public String get();
+//    public Player get();
 
 }

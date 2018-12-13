@@ -1,12 +1,13 @@
 package ktu.tanks.iterator;
 
 import ktu.tanks.health.Health;
+import ktu.tanks.models.Player;
 
 import java.util.List;
 
 public class NameConcreteContainer implements NameContainer{
 
-    private String[] names = new String[20];
+    private Player[] names = new Player[20];
     private int lenght = 1;
 
     @Override
@@ -33,7 +34,7 @@ public class NameConcreteContainer implements NameContainer{
         }
 
         @Override
-        public String next() {
+        public Player next() {
 
             if(this.hasNext()){
                 index++;
@@ -48,7 +49,7 @@ public class NameConcreteContainer implements NameContainer{
         }
 
         @Override
-        public void add(String name){
+        public void add(Player name){
             names[lenght] = name;
             lenght++;
         }

@@ -5,6 +5,7 @@ import ktu.tanks.health.Health;
 import ktu.tanks.health.HealthManager;
 import ktu.tanks.iterator.NameConcreteContainer;
 import ktu.tanks.iterator.NameIterator;
+import ktu.tanks.models.Player;
 import ktu.tanks.tiles.Tile;
 import ktu.tanks.tiles.TileManager;
 import ktu.tanks.ui.Viewport;
@@ -74,9 +75,9 @@ public class GameViewPanel extends JComponent {
         g.drawString("Logged Users: ", 10, 25);
         int yHeight = 1;
         for(NameIterator iter = nameConcreteContainer.getIterator(); iter.hasNext();){
-            String name = (String)iter.next();
-            if(name != null)
-                g.drawString("-> " + name, 10, 25 + yHeight * 10);
+            Player player = iter.next();
+            if(player != null)
+                g.drawString("-> " + player.getName(), 10, 25 + yHeight * 10);
 //            System.out.println("Name : " + name);
             yHeight++;
         }

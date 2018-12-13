@@ -90,10 +90,10 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
 
             NameConcreteContainer nameConcreteContainer = new NameConcreteContainer();
             NameIterator iter = nameConcreteContainer.getIterator();
-            iter.add(this.player.getName());
+            iter.add(this.player);
             for (Player pl : players) {
                 boolean exists = false;
-                iter.add(pl.getName());
+                iter.add(pl);
                 for (PlayerEntity plEntity : gameTanks) {
                     if (plEntity.getPlayerName().equals(pl.getName())) {
                         exists = true;
