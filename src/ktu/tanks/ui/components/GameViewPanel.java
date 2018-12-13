@@ -3,6 +3,8 @@ package ktu.tanks.ui.components;
 import ktu.tanks.entities.PlayerEntity;
 import ktu.tanks.health.Health;
 import ktu.tanks.health.HealthManager;
+import ktu.tanks.iterator.NameConcreteContainer;
+import ktu.tanks.iterator.NameIterator;
 import ktu.tanks.tiles.Tile;
 import ktu.tanks.tiles.TileManager;
 import ktu.tanks.ui.Viewport;
@@ -19,6 +21,8 @@ public class GameViewPanel extends JComponent {
     private List<PlayerEntity> players;
     private List<Health> healths;
     private List<Tile> tiles;
+
+    private NameConcreteContainer nameConcreteContainer;
 
     private final Color bgColor = new Color(96, 96, 128);
     private final Color textColor = new Color(0, 0, 0);
@@ -44,6 +48,8 @@ public class GameViewPanel extends JComponent {
         this.healthManager = new HealthManager();
         this.healths = new ArrayList<>();
         healthPrototype = new Health(1);
+
+        this.nameConcreteContainer = new NameConcreteContainer();
     }
 
     @Override
@@ -66,7 +72,14 @@ public class GameViewPanel extends JComponent {
         g.setColor(textColor);
         g.drawString("X: " + viewport.getX() + " Y: " + viewport.getY() + " Frame: " + ticks++, 10, 10);
         g.drawString("Logged Users: ", 10, 25);
-
+        int yHeight = 1;
+        for(NameIterator iter = nameConcreteContainer.getIterator(); iter.hasNext();){
+            String name = (String)iter.next();
+            if(name != null)
+                g.drawString("-> " + name, 10, 25 + yHeight * 10);
+//            System.out.println("Name : " + name);
+            yHeight++;
+        }
     }
 
     public List<PlayerEntity> getPlayers() {
@@ -75,6 +88,10 @@ public class GameViewPanel extends JComponent {
 
     public Viewport getViewport() {
         return viewport;
+    }
+
+    public void setNameIterator(NameConcreteContainer nameContainer){
+        this.nameConcreteContainer = nameContainer;
     }
 
     public void setTiles(Tile[] tiles) {

@@ -6,21 +6,27 @@ import java.util.List;
 
 public class NameConcreteContainer implements NameContainer{
 
-    private List<String> names;
+    private String[] names = new String[20];
+    private int lenght = 1;
 
     @Override
     public NameIterator getIterator() {
         return new NameConcreteIterator();
     }
 
+    @Override
+    public void setIterator(){
+
+    }
+
     private class NameConcreteIterator implements NameIterator {
 
-        int index;
+        int index = 0;
 
         @Override
         public boolean hasNext() {
 
-            if(index < names.size()){
+            if(index < lenght){
                 return true;
             }
             return false;
@@ -31,9 +37,20 @@ public class NameConcreteContainer implements NameContainer{
 
             if(this.hasNext()){
                 index++;
-                return names.get(index);
+                return names[index];
             }
             return null;
+        }
+
+        @Override
+        public int getIndex(){
+            return lenght;
+        }
+
+        @Override
+        public void add(String name){
+            names[lenght] = name;
+            lenght++;
         }
     }
 }
