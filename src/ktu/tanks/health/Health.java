@@ -19,6 +19,7 @@ public class Health extends HealthPrototype {
             HealthPrototype clone = (HealthPrototype) super.clone();
             int randomNum = 0 + (int)(Math.random() * ((10 - 0) + 1));
             clone.setIndX(randomNum);
+            randomNum = 0 + (int)(Math.random() * ((10 - 0) + 1));
             clone.setIndY(randomNum);
             return clone;
         } catch (CloneNotSupportedException e) {
