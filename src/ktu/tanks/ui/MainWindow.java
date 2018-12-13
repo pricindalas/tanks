@@ -72,10 +72,10 @@ public class MainWindow extends JFrame implements Tickable, WindowListener, Play
             healths = gameView.getHealths();
             if (healths.size() <= 10){
                 System.out.printf("New health. %d", healths.size());
-                System.out.printf("\n");
+                System.out.print("\n");
                 Health hl = (Health) health.shallowCopy();
                 System.out.printf("Time: %d ", hl.getTime());
-                System.out.printf("\n");
+                System.out.print("\n");
                 healths.add(hl);
             }
             gameView.setHealths(healths);
